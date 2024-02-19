@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Coffee } from './entities/coffee.entity';
 
 @Injectable()
@@ -6,21 +6,34 @@ export class CoffeesService {
     private coffees: Coffee[]= [
         {
             id: 1,
-            name: 'Shipwreck Roast',
-            brand: 'Buddy Brew',
-            flavors: ['chocolate', 'vanilla']
+            name: 'Shipwreck Roast1',
+            brand: 'Buddy Brew1',
+            flavors: ['chocolate1', 'vanilla1']
+        },
+        {
+            id: 2,
+            name: 'Shipwreck Roast2',
+            brand: 'Buddy Brew2',
+            flavors: ['chocolate2', 'vanilla2']
+        },
+        {
+            id: 3,
+            name: 'Shipwreck Roast3',
+            brand: 'Buddy Brew3',
+            flavors: ['chocolate3', 'vanilla3']
         }
     ]; 
 
     findAll() {
         return this.coffees;
     }
-    findAllPagination(@Query() paginationQuery) {
-        const {limit, offset} = paginationQuery;
-        return `Action returns all coffees. Limit $ {limit}, offset ${offset}`;
-    }
+    
     findOne(id:string){
-        return this.coffees.find(item => item.id === +id);
+        const coffee =  this.coffees.find(item => item.id === +id);
+        if(!coffee){
+            throw new HttpException(`Coffee #${id} not found`, HttpStatus.NOT_FOUND);
+        }
+        return coffee;
 
     }
     create(createCoffeeDto:any ){
