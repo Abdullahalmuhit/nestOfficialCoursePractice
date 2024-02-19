@@ -37,13 +37,17 @@ export class CoffeesService {
 
     }
     create(createCoffeeDto:any ){
-        return this.coffees.push(createCoffeeDto);
+         this.coffees.push(createCoffeeDto);
+         return createCoffeeDto;
     }
 
     update(id: string, updateCoffeeDto:any ){
-        const existingCoffee = this.findOne(id);
-        if(existingCoffee){
-
+    const existingCoffee = this.findOne(id);
+        if (existingCoffee) {
+            Object.assign(existingCoffee, updateCoffeeDto);
+            return existingCoffee; 
+        } else {
+            throw new Error(`Coffee with ID ${id} not found.`);
         }
     }
     remove(id: string){
