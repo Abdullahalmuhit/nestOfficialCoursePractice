@@ -26,7 +26,7 @@ export class CoffeesController {
         return `Action returns all coffees. Limit $ {limit}, offset ${offset}`;
     }
     @Get(':id')
-    findOne(@Param('id') id:string){
+    findOne(@Param('id') id:number){
          return this.coffeesService.findOne(id);
 
         // return `This Action returns #${id} coffee`
@@ -34,6 +34,7 @@ export class CoffeesController {
     }
     @Post()
     create(@Body() createCoffeeDto: CreateCoffeeDto ){
+        console.log(createCoffeeDto instanceof CreateCoffeeDto);
         return this.coffeesService.create(createCoffeeDto);
     }
 
@@ -42,7 +43,7 @@ export class CoffeesController {
         return this.coffeesService.update(id, updateCoffeeDto);
     }
     @Delete(':id')
-    remove(@Param('id') id:string){
+    remove(@Param('id') id:number){
         return this.coffeesService.remove(id);
     }
 }
